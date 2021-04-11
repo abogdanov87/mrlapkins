@@ -1,5 +1,8 @@
 SERVER = 'DEVELOP'
 
+if SERVER == 'PROD':
+    from .prod import *
+
 if SERVER == 'TEST':
     from .test import *
 
