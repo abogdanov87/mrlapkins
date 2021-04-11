@@ -1,0 +1,15 @@
+{% load static %}
+{% load render_bundle from webpack_loader %}
+
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="favicon.ico" />
+    <title>QOLIBRI</title>
+</head>
+<body>
+    <div id="root"></div>
+    {% render_bundle 'main' %}
+</body>
+</html>
