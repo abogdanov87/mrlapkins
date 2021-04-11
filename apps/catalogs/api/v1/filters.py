@@ -3,14 +3,14 @@ from django.db.models import Q, CharField
 from django.db.models.functions import Lower
 from datetime import datetime
 from catalogs.models import (
-    Catalog, 
+    Breed, 
 )
 
 
 CharField.register_lookup(Lower)
 
 
-class CatalogFilter(filters.FilterSet):
+class BreedFilter(filters.FilterSet):
     class Meta:
-        model = Catalog
+        model = Breed
         fields = ('active',)

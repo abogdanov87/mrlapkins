@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 import os
 import sys
 
-AUTH_USER_MODEL = 'catalogs.User'
+AUTH_USER_MODEL = 'common.User'
 
 RELATIVE_PATH = ''
 

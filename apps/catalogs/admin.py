@@ -1,22 +1,44 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import gettext_lazy as _
 
 # Register your models here.
 from .models import (
-    Catalog,
-    User,
+    Breed,
+    GenderSpec,
+    EyeColor,
+    CoatColor,
 )
 
 
-@admin.register(Catalog)
-class CatalogAdmin(admin.ModelAdmin):
-    model = Catalog
+class GenderSpecInline(admin.TabularInline):
+    model = GenderSpec
+    extra = 2
+    max_num = 2
+
+
+class EyeColorInline(admin.TabularInline):
+    model = EyeColor
+    extra = 1
+    def has_delete_permission(self, request, obj):
+        return True
+
+
+class CoatColorInline(admin.TabularInline):
+    model = CoatColor
+    extra = 1
+    def has_delete_permission(self, request, obj):
+        return True
+
+
+@admin.register(Breed)
+class BreedAdmin(admin.ModelAdmin):
+    model = Breed
     fields = [
         'pet_type',
-        'breed',
+        'title',
         'short_description',
         'origin',
+        'character',
         'image',
         'allergenicity',
         'molt',
@@ -28,47 +50,10 @@ class CatalogAdmin(admin.ModelAdmin):
         'health',
         'active',
     ]
-    list_display = ('pet_type', 'breed',)
-    list_display_links = ('pet_type','breed')
-
-
-class MyUserAdmin(UserAdmin):
-    model = User
-    list_display = (
-        'id', 
-        'username', 
-        'last_name', 
-        'first_name',
-        'middle_name',
-        'avatar',
-    )
-    list_display_links = ('username',)
-    fieldsets = (
-        (None, {'fields': ('username', 'password')}),
-        (
-            _('Личные данные'),
-            {
-                'fields': (
-                    'last_name',
-                    'first_name',
-                    'middle_name',
-                    'avatar',
-                ),
-            },
-        ),
-        (
-            _('Доступы'),
-            {
-                'fields': (
-                    'is_active',
-                    'is_staff',
-                    'is_superuser',
-                    'groups',
-                    'user_permissions',
-                ),
-            },
-        ),
-    )
-
-
-admin.site.register(User, MyUserAdmin)
+    inlines = [
+        GenderSpecInline,
+        EyeColorInline,
+        CoatColorInline,
+    ]
+    list_display = ('pet_type', 'title',)
+    list_display_links = ('pet_type','title')

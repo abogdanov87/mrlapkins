@@ -1,5 +1,5 @@
 from django.apps import AppConfig
 
 
-class CatalogConfig(AppConfig):
+class BreedConfig(AppConfig):
     name = 'Каталоги'

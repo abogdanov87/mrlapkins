@@ -11,15 +11,13 @@ from django.http import HttpResponse, Http404, JsonResponse
 
 
 from catalogs.models import (
-    Catalog, 
-    User, 
+    Breed, 
 )
 from .serializers import (
-    CatalogSerializer, 
-    UserSerializer, 
+    BreedSerializer, 
 )
 from .filters import (
-    CatalogFilter, 
+    BreedFilter, 
 )
 
 
@@ -27,32 +25,18 @@ class CustomPageNumberPagination(PageNumberPagination):
     page_size_query_param = 'size'
 
 
-class CatalogListCreateAPIView(generics.ListCreateAPIView):
-    queryset = Catalog.objects.all()
-    serializer_class = CatalogSerializer
-    filterset_class = CatalogFilter
+class BreedListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Breed.objects.all()
+    serializer_class = BreedSerializer
+    filterset_class = BreedFilter
 
     def get_queryset(self):
-        return Catalog.objects.all()
+        return Breed.objects.all()
 
     def post(self, request, format=None):
         return Response(self.data, status.HTTP_201_CREATED)
 
 
-class CatalogRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
-    queryset = Catalog.objects.all()
-    serializer_class = CatalogSerializer
-
-
-class MeAPIView(APIView):
-    queryset = User.objects.all()
-
-    def get(self, request, format=None):
-        me = request.user
-        serializer = UserSerializer(me)
-        return Response(serializer.data)
-
-
-class UserRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+class BreedRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
+    queryset = Breed.objects.all()
+    serializer_class = BreedSerializer

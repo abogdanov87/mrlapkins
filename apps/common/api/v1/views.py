@@ -11,9 +11,11 @@ from transliterate import translit
 
 from common.models import (
     Param,
+    User, 
 )
 from .serializers import (
     ParamSerializer,
+    UserSerializer, 
 )
 from .filters import (
     ParamFilter,
@@ -56,3 +58,18 @@ class ParamListCreateAPIView(ListBulkCreateUpdateAPIView):
             })
             request.data.append(data)
         return self.bulk_update(request, *args, **kwargs)
+
+
+class MeAPIView(APIView):
+    queryset = User.objects.all()
+
+    def get(self, request, format=None):
+        me = request.user
+        serializer = UserSerializer(me)
+        return Response(serializer.data)
+
+
+class UserRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    
