@@ -3,22 +3,22 @@ from .base import *
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    '37.140.192.51',
-    'mrlapkins.ru',
-    'www.mrlapkins.ru',
+    '37.140.192.209',
+    '4paws.io',
+    'www.4paws.io',
 ]
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'u1344503_default',
-        'USER': 'u1344503_default',
-        'PASSWORD': 'N_7Q2iDd',
+        'NAME': 'u1352366_default',
+        'USER': 'u1352366_default',
+        'PASSWORD': 'X3T_h_eX',
         'HOST': 'localhost',
     }
 }
 
-BASE_URL = 'http://www.mrlapkins.ru'
+BASE_URL = 'http://www.4paws.io'
 LOGIN_FORM_URL = BASE_URL + '/admin/json/api-auth/login/'
 HOME_FORM_URL = BASE_URL + '/#/catalogs/'
 
