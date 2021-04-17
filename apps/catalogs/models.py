@@ -168,6 +168,7 @@ class GenderSpec(models.Model):
         on_delete=models.CASCADE,
         blank=False, null=False,
         verbose_name=_('Порода'),
+        related_name='gender_spec',
     )
     gender = models.CharField(
         _('Пол'),
@@ -233,6 +234,7 @@ class EyeColor(models.Model):
         on_delete=models.CASCADE,
         blank=False, null=False,
         verbose_name=_('Порода'),
+        related_name='eye_color',
     )
     color = models.CharField(
         _('Цвет'),
@@ -268,6 +270,7 @@ class CoatColor(models.Model):
         on_delete=models.CASCADE,
         blank=False, null=False,
         verbose_name=_('Порода'),
+        related_name='coat_color',
     )
     color = models.CharField(
         _('Цвет'),
