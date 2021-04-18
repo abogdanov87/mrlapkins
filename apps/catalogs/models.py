@@ -60,6 +60,12 @@ class Breed(models.Model):
         blank=False, null=False,
         default='cat'
     )
+    alias = models.CharField(
+        _('Псевдоним (транслит)'),
+        max_length=255,
+        blank=False, null=False,
+        default='alias',
+    )
     title = models.CharField(
         _('Название породы'),
         max_length=255,
@@ -223,10 +229,11 @@ class EyeColor(models.Model):
     """
     COLORS = (
         ('grey', 'Серые'),
-        ('green', 'Зеленые'),
+        ('green', 'Зелёные'),
         ('blue', 'Голубые'),
         ('brown', 'Коричневые'),
-        ('black', 'Черные'),
+        ('black', 'Чёрные'),
+        ('yellow', 'Жёлтые'),
     )
 
     breed = models.ForeignKey(

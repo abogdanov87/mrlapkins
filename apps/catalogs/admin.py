@@ -18,14 +18,14 @@ class GenderSpecInline(admin.TabularInline):
 
 class EyeColorInline(admin.TabularInline):
     model = EyeColor
-    extra = 1
+    extra = 0
     def has_delete_permission(self, request, obj):
         return True
 
 
 class CoatColorInline(admin.TabularInline):
     model = CoatColor
-    extra = 1
+    extra = 0
     def has_delete_permission(self, request, obj):
         return True
 
@@ -35,6 +35,7 @@ class BreedAdmin(admin.ModelAdmin):
     model = Breed
     fields = [
         'pet_type',
+        'alias',
         'title',
         'short_description',
         'origin',

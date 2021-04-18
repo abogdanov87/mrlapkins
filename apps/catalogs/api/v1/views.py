@@ -25,16 +25,14 @@ class CustomPageNumberPagination(PageNumberPagination):
     page_size_query_param = 'size'
 
 
-class BreedListCreateAPIView(generics.ListCreateAPIView):
+class BreedListCreateAPIView(generics.ListAPIView):
     queryset = Breed.objects.all()
     serializer_class = BreedSerializer
     filterset_class = BreedFilter
+    permission_classes = [permissions.AllowAny]
 
     def get_queryset(self):
         return Breed.objects.all()
-
-    def post(self, request, format=None):
-        return Response(self.data, status.HTTP_201_CREATED)
 
 
 class BreedRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
