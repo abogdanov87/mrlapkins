@@ -74,6 +74,12 @@ class Breed(models.Model):
     )
     short_description = models.TextField(
         _('Краткое описание'),
+        max_length=256,
+        blank=False, null=False,
+        default='',
+    )
+    full_description = models.TextField(
+        _('Полное описание'),
         max_length=2000,
         blank=False, null=False,
         default='',

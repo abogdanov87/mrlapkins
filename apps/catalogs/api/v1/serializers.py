@@ -62,8 +62,10 @@ class BreedSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'pet_type',
+            'alias',
             'title',
             'short_description',
+            'full_description',
             'origin',
             'image',
             'allergenicity',

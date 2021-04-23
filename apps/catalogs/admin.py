@@ -38,6 +38,7 @@ class BreedAdmin(admin.ModelAdmin):
         'alias',
         'title',
         'short_description',
+        'full_description',
         'origin',
         'character',
         'image',
