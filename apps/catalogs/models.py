@@ -100,7 +100,7 @@ class Breed(models.Model):
         _('Изображение'),
         upload_to ='badges/',
         blank=True, null=True,
-        resize_source=dict(size=(128, 128), sharpen=True),
+        resize_source=dict(size=(320, 320), sharpen=True),
     )
     allergenicity = models.PositiveIntegerField(
         _('Аллергенность'),
