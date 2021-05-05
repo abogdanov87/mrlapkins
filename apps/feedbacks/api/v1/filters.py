@@ -15,7 +15,7 @@ class FeedbackFilter(filters.FilterSet):
 
     class Meta:
         model = Feedback
-        fields = ('active', 'title',)
+        fields = ('active', 'title', 'breed',)
 
     def filter_title(self, queryset, title, value):
         return queryset.filter(title__icontains=value)
