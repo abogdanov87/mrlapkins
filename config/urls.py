@@ -55,6 +55,7 @@ urlpatterns = [
     path('auth/', include('djoser.urls.authtoken')),
     path('', include('catalogs.urls', namespace='catalogs')),
     path('', include('common.urls', namespace='common')),
+    path('', include('feedbacks.urls', namespace='feedback')),
     url(r'^$', TemplateView.as_view(template_name='index.html'), name='index'),
 ]
 

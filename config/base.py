@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     # project apps
     'catalogs',
     'common',
+    'feedbacks',
 ]
 
 MIDDLEWARE = [

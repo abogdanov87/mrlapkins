@@ -13,7 +13,7 @@ urlpatterns = [
     ),
     url(
         r'^api/v1/breeds/(?P<pk>\d+)/$',
-        api_v1_views.BreedRetrieveUpdateAPIView.as_view(),
+        api_v1_views.BreedRetrieveAPIView.as_view(),
         name='detail',
     ),
 ]

@@ -300,3 +300,36 @@ class CoatColor(models.Model):
 
     def __str__(self):
         return '{}, {}'.format(self.breed, self.color)
+
+
+class Gallery(models.Model):
+    """
+        Галерея пород животных
+    """
+
+    breed = models.ForeignKey(
+        Breed,
+        on_delete=models.CASCADE,
+        blank=False, null=False,
+        verbose_name=_('Порода'),
+        related_name='gallery',
+    )
+    label = models.CharField(
+        _('Заголовок'),
+        max_length=1000,
+        blank=True, null=True,
+    )
+    image = ThumbnailerImageField(
+        _('Изображение'),
+        upload_to ='gallery/',
+        blank=False, null=False,
+        resize_source=dict(size=(500, 500), sharpen=True),
+    )
+
+    class Meta:
+        db_table = 'gallery'
+        verbose_name = _('Галерея')
+        verbose_name_plural = _('Галерея')
+
+    def __str__(self):
+        return '{}, {}'.format(self.breed, self.image)        

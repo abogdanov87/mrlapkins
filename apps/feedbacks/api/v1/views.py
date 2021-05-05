@@ -10,14 +10,14 @@ from django.db.models import Q, CharField
 from django.http import HttpResponse, Http404, JsonResponse
 
 
-from catalogs.models import (
-    Breed, 
+from feedbacks.models import (
+    Feedback, 
 )
 from .serializers import (
-    BreedSerializer, 
+    FeedbackSerializer, 
 )
 from .filters import (
-    BreedFilter, 
+    FeedbackFilter, 
 )
 
 
@@ -25,18 +25,12 @@ class CustomPageNumberPagination(PageNumberPagination):
     page_size_query_param = 'size'
 
 
-class BreedListCreateAPIView(generics.ListAPIView):
-    queryset = Breed.objects.all()
-    serializer_class = BreedSerializer
-    filterset_class = BreedFilter
+class FeedbackListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Feedback.objects.all()
+    serializer_class = FeedbackSerializer
+    filterset_class = FeedbackFilter
     permission_classes = [permissions.AllowAny]
     pagination_class = CustomPageNumberPagination
 
     def get_queryset(self):
-        return Breed.objects.all().order_by('title')
-
-
-class BreedRetrieveAPIView(generics.RetrieveAPIView):
-    queryset = Breed.objects.all()
-    serializer_class = BreedSerializer
-    permission_classes = [permissions.AllowAny]
+        return Feedback.objects.all().order_by('-created')

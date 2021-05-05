@@ -5,6 +5,7 @@ from catalogs.models import (
     GenderSpec,
     EyeColor,
     CoatColor,
+    Gallery,
 )
 
 
@@ -47,6 +48,18 @@ class CoatColorSerializer(serializers.ModelSerializer):
         return data
 
 
+class GallerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Gallery
+        fields = (
+            'label',
+            'image',
+        )
+
+    def validate(self, data):
+        return data
+
+
 class BreedSerializer(serializers.ModelSerializer):
     allergenicity = serializers.SerializerMethodField()
     molt = serializers.SerializerMethodField()
@@ -56,17 +69,20 @@ class BreedSerializer(serializers.ModelSerializer):
     activity = serializers.SerializerMethodField()
     friendliness = serializers.SerializerMethodField()
     health = serializers.SerializerMethodField()
+    pet_type_name = serializers.SerializerMethodField()
 
     class Meta:
         model = Breed
         fields = (
             'id',
             'pet_type',
+            'pet_type_name',
             'alias',
             'title',
             'short_description',
             'full_description',
             'origin',
+            'character',
             'image',
             'allergenicity',
             'molt',
@@ -128,6 +144,9 @@ class BreedSerializer(serializers.ModelSerializer):
             'title': obj.get_health_display(),
         }
 
+    def get_pet_type_name(self, obj):
+        return obj.get_pet_type_display()
+
     def to_representation(self, instance):
         response = super().to_representation(instance)
         response['gender_spec'] = GenderSpecSerializer(
@@ -140,6 +159,10 @@ class BreedSerializer(serializers.ModelSerializer):
         ).data
         response['coat_color'] = CoatColorSerializer(
             instance.coat_color,
+            many=True
+        ).data
+        response['gallery'] = GallerySerializer(
+            instance.gallery,
             many=True
         ).data
         return response

@@ -7,6 +7,7 @@ from .models import (
     GenderSpec,
     EyeColor,
     CoatColor,
+    Gallery,
 )
 
 
@@ -25,6 +26,13 @@ class EyeColorInline(admin.TabularInline):
 
 class CoatColorInline(admin.TabularInline):
     model = CoatColor
+    extra = 0
+    def has_delete_permission(self, request, obj):
+        return True
+
+
+class GalleryInline(admin.TabularInline):
+    model = Gallery
     extra = 0
     def has_delete_permission(self, request, obj):
         return True
@@ -56,6 +64,7 @@ class BreedAdmin(admin.ModelAdmin):
         GenderSpecInline,
         EyeColorInline,
         CoatColorInline,
+        GalleryInline,
     ]
     list_display = ('pet_type', 'title',)
     list_display_links = ('pet_type','title')
