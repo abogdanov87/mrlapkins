@@ -169,3 +169,15 @@ class BreedSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
         return data
+
+
+class BreedShortSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Breed
+        fields = (
+            'id',
+            'title',
+        )
+
+    def validate(self, data):
+        return data
