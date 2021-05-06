@@ -41,7 +41,12 @@ class CoatColorSerializer(serializers.ModelSerializer):
     class Meta:
         model = CoatColor
         fields = (
-            'color',
+            'base_color',
+            'silver_gold',
+            'dilute_modifier',
+            'amount_of_white',
+            'tabby_pattern',
+            'pointed_pattern',
         )
 
     def validate(self, data):
@@ -77,6 +82,8 @@ class BreedSerializer(serializers.ModelSerializer):
             'id',
             'pet_type',
             'pet_type_name',
+            'code',
+            'wcf',
             'alias',
             'title',
             'short_description',

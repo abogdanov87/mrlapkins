@@ -43,6 +43,8 @@ class BreedAdmin(admin.ModelAdmin):
     model = Breed
     fields = [
         'pet_type',
+        'code',
+        'wcf',
         'alias',
         'title',
         'short_description',
