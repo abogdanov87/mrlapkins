@@ -6,6 +6,7 @@ import glob, os
 from django.conf import settings
 import copy
 from django.core.mail import send_mail 
+from django.views.decorators.csrf import csrf_exempt
 
 from transliterate import translit
 
@@ -75,6 +76,7 @@ class UserRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     serializer_class = UserSerializer
 
 
+@csrf_exempt
 class AuthAPIView(APIView):
     queryset = User.objects.all()
     permission_classes = [permissions.AllowAny]
