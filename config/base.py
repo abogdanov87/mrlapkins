@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'easy_thumbnails',
     'transliterate',
     'simple_history',
+    'djrichtextfield',
 
     # project apps
     'catalogs',
@@ -166,6 +167,22 @@ REST_FRAMEWORK = {
         'django_filters.rest_framework.DjangoFilterBackend'],
 }
 
+DJRICHTEXTFIELD_CONFIG = {
+    'js': ['//cdn.ckeditor.com/4.14.0/standard/ckeditor.js'],
+    'init_template': 'djrichtextfield/init/ckeditor.js',
+    'settings': {
+        'toolbar': [
+            {'items': ['Format', '-', 'Bold', 'Italic', '-',
+                    'RemoveFormat']},
+            {'items': ['Link', 'Unlink', 'Image', 'Table']},
+            {'items': ['Source']},
+            {'items': ['BulletedList', 'NumberedList']}
+        ],
+        'format_tags': 'p;h1;h2;h3',
+        'width': 700
+    }
+}
+
 BASE_URL = 'http://localhost:8000'
 LOGIN_FORM_URL = BASE_URL + '/admin/json/api-auth/login/'
 HOME_FORM_URL = BASE_URL + '/#/catalogs/'
@@ -194,3 +211,16 @@ WEBPACK_LOADER = {
 
 MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'files/')
 MEDIA_URL = '/files/'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# Host for sending e-mail.
+EMAIL_HOST = 'mail.4paws.io'
+
+# Port for sending e-mail.
+EMAIL_PORT = 465
+
+# Optional SMTP authentication information for EMAIL_HOST.
+EMAIL_HOST_USER = 'support@4paws.io'
+EMAIL_HOST_PASSWORD = 'mN1iF1lV6adP8x'
+EMAIL_USE_TLS = False

@@ -7,6 +7,7 @@ from easy_thumbnails.fields import ThumbnailerImageField
 from django.apps import apps
 from common.models import Entity, PeriodHistoricalModel
 from simple_history.models import HistoricalRecords
+from djrichtextfield.models import RichTextField
 
 from django.utils.translation import gettext_lazy as _
 
@@ -96,19 +97,19 @@ class Breed(models.Model):
         blank=False, null=False,
         default='',
     )
-    full_description = models.TextField(
+    full_description = RichTextField(
         _('Полное описание'),
         max_length=2000,
         blank=False, null=False,
         default='',
     )
-    origin = models.TextField(
+    origin = RichTextField(
         _('Происхождение'),
         max_length=2000,
         blank=False, null=False,
         default='',
     )
-    character = models.TextField(
+    character = RichTextField(
         _('Характер и повадки'),
         max_length=2000,
         blank=False, null=False,

@@ -53,6 +53,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.authtoken')),
+    path('djrichtextfield/', include('djrichtextfield.urls')),
     path('', include('catalogs.urls', namespace='catalogs')),
     path('', include('common.urls', namespace='common')),
     path('', include('feedbacks.urls', namespace='feedback')),

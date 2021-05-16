@@ -10,3 +10,5 @@ docxtpl==0.9.0
 easy-thumbnails==2.7
 transliterate==1.10.2
 django-simple-history==2.10.0
+password_gen==0.2.17
+django-richtextfield==1.6.1
