@@ -76,7 +76,6 @@ class UserRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     serializer_class = UserSerializer
 
 
-@csrf_exempt
 class AuthAPIView(APIView):
     queryset = User.objects.all()
     permission_classes = [permissions.AllowAny]
