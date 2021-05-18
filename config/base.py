@@ -224,4 +224,5 @@ EMAIL_PORT = 465
 # Optional SMTP authentication information for EMAIL_HOST.
 EMAIL_HOST_USER = 'support@4paws.io'
 EMAIL_HOST_PASSWORD = 'mN1iF1lV6adP8x'
-EMAIL_USE_TLS = True
+# EMAIL_USE_TLS = True
+EMAIL_USE_SSL = True
