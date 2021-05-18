@@ -218,8 +218,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'mail.4paws.io'
 
 # Port for sending e-mail.
-# EMAIL_PORT = 465
-EMAIL_PORT = 587
+EMAIL_PORT = 465
+# EMAIL_PORT = 587
 
 # Optional SMTP authentication information for EMAIL_HOST.
 EMAIL_HOST_USER = 'support@4paws.io'
