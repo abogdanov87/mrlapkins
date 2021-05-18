@@ -85,13 +85,14 @@ class AuthAPIView(APIView):
         message = '' 
         fr = 'support@4paws.io'
         to = request.data['email']
+        
         send_mail(
-            subject, 
-            message, 
-            fr, 
-            [to],
+            'subject', 
+            'message', 
+            'support@4paws.io', 
+            ['smicersiu@gmail.com'],
         )
-        # import pdb; pdb.set_trace()
+        
         return Response({
             'status': status.HTTP_200_OK
         })
