@@ -1,5 +1,5 @@
 """
-WSGI config for safetywork project.
+WSGI config for 4paws project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
