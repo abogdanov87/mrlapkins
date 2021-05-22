@@ -9,6 +9,9 @@ from django.core.mail import send_mail
 from django.views.decorators.csrf import csrf_exempt
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
+import random
+from django.db.models.functions import Lower
+from django.utils import timezone
 
 from transliterate import translit
 
@@ -83,16 +86,34 @@ class AuthAPIView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request, *args, **kwargs):
-        subject = 'test message from 4Paws.io!'
-        to = request.data['email']
-        html_message = render_to_string('registration_msg_russian.html', { 'registration_code': '123456' })
+        generated_pwd = '00000{0}'.format(random.randint(0, 999999))[-6:]
+        email = Lower(request.data['email'])
+
+        user_instance = None
+        try:
+            user_instance = User.objects.get(is_active=True, email__lower=email)
+        except e:
+            user_instance = User(
+                is_superuser=False,
+                is_staff=False,
+                is_active=True,
+                username=email,
+                email=email,
+            )
+        user_instance.save(
+            password=generated_pwd,
+            password_change_date=timezone.datetime.now,
+        )
+
+        subject = 'Рады приветствовать вас на 4Paws!'
+        html_message = render_to_string('registration_msg_russian.html', { 'registration_code': generated_pwd })
         plain_message = strip_tags(html_message)
         
         r = send_mail(
             subject = subject, 
             message = plain_message, 
             from_email = settings.EMAIL_HOST_USER,
-            recipient_list = [to],
+            recipient_list = [email],
             fail_silently = False,
             html_message = html_message,
         )
