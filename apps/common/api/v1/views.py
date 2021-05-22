@@ -13,6 +13,7 @@ import random
 from django.db.models.functions import Lower
 from django.utils import timezone
 import datetime
+import hashlib
 
 from transliterate import translit
 
@@ -101,7 +102,7 @@ class AuthAPIView(APIView):
                 username=email,
                 email=email,
             )
-        user_instance.password = generated_pwd
+        user_instance.password = hashlib.md5(b'generated_pwd')
         user_instance.password_change_date = datetime.datetime.now()
         user_instance.save()
 
