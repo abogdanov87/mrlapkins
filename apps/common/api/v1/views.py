@@ -12,6 +12,7 @@ from django.utils.html import strip_tags
 import random
 from django.db.models.functions import Lower
 from django.utils import timezone
+import datetime
 
 from transliterate import translit
 
@@ -87,12 +88,12 @@ class AuthAPIView(APIView):
 
     def post(self, request, *args, **kwargs):
         generated_pwd = '00000{0}'.format(random.randint(0, 999999))[-6:]
-        email = Lower(request.data['email'])
+        email = request.data['email']
 
         user_instance = None
         try:
             user_instance = User.objects.get(is_active=True, email__lower=email)
-        except e:
+        except:
             user_instance = User(
                 is_superuser=False,
                 is_staff=False,
@@ -100,10 +101,9 @@ class AuthAPIView(APIView):
                 username=email,
                 email=email,
             )
-        user_instance.save(
-            password=generated_pwd,
-            password_change_date=timezone.datetime.now,
-        )
+        user_instance.user_instance = generated_pwd
+        user_instance.password_change_date = datetime.datetime.now()
+        user_instance.save()
 
         subject = 'Рады приветствовать вас на 4Paws!'
         html_message = render_to_string('registration_msg_russian.html', { 'registration_code': generated_pwd })
