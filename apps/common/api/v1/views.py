@@ -86,14 +86,15 @@ class AuthAPIView(APIView):
         fr = 'support@4paws.io'
         to = request.data['email']
         
-        send_mail(
-            'subject', 
-            'message', 
-            'support@4paws.io', 
-            ['smicersiu@gmail.com'],
+        r = send_mail(
+            subject = 'subject', 
+            message = 'message', 
+            recipient_list = ['smicersiu@gmail.com'],
+            fail_silently = False,
         )
         
         return Response({
-            'status': status.HTTP_200_OK
+            'status': status.HTTP_200_OK,
+            'mail_status': r,
         })
     

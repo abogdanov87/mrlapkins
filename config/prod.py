@@ -8,6 +8,10 @@ ALLOWED_HOSTS = [
     'www.4paws.io',
 ]
 
+MIDDLEWARE += [
+    'django.middleware.csrf.CsrfViewMiddleware',
+]
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -25,3 +29,5 @@ HOME_FORM_URL = BASE_URL + '/#/catalogs/'
 LOGOUT_REDIRECT_URL = LOGIN_FORM_URL
 LOGIN_REDIRECT_URL = LOGIN_FORM_URL
 LOGIN_URL = LOGIN_FORM_URL
+
+STATIC_ROOT = os.path.join(BASE_DIR, RELATIVE_PATH, '../static/')
