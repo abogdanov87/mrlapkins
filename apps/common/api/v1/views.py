@@ -101,7 +101,7 @@ class AuthAPIView(APIView):
                 username=email,
                 email=email,
             )
-        user_instance.user_instance = generated_pwd
+        user_instance.password = generated_pwd
         user_instance.password_change_date = datetime.datetime.now()
         user_instance.save()
 
