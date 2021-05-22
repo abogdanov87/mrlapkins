@@ -91,6 +91,7 @@ class AuthAPIView(APIView):
         r = send_mail(
             subject = subject, 
             message = plain_message, 
+            from_email = settings.EMAIL_HOST_USER,
             recipient_list = [to],
             fail_silently = False,
             html_message = html_message,
