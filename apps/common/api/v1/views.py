@@ -7,6 +7,8 @@ from django.conf import settings
 import copy
 from django.core.mail import send_mail 
 from django.views.decorators.csrf import csrf_exempt
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 from transliterate import translit
 
@@ -82,19 +84,19 @@ class AuthAPIView(APIView):
 
     def post(self, request, *args, **kwargs):
         subject = 'test message from 4Paws.io!'
-        message = '' 
-        fr = 'support@4paws.io'
         to = request.data['email']
+        html_message = render_to_string('registration_msg_russian.html', { 'registration_code': '123456' })
+        plain_message = strip_tags(html_message)
         
         r = send_mail(
-            subject = 'subject', 
-            message = 'message', 
-            recipient_list = ['smicersiu@gmail.com'],
+            subject = subject, 
+            message = plain_message, 
+            recipient_list = [to],
             fail_silently = False,
+            html_message = html_message,
         )
         
         return Response({
             'status': status.HTTP_200_OK,
-            'mail_status': r,
         })
     
