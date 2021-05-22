@@ -102,7 +102,7 @@ class AuthAPIView(APIView):
                 username=email,
                 email=email,
             )
-        user_instance.password = hashlib.md5(b'generated_pwd')
+        user_instance.password = hashlib.md5(generated_pwd).hexdigest()
         user_instance.password_change_date = datetime.datetime.now()
         user_instance.save()
 
