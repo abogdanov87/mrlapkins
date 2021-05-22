@@ -89,7 +89,8 @@ class AuthAPIView(APIView):
 
     def post(self, request, *args, **kwargs):
         generated_pwd = '00000{0}'.format(random.randint(0, 999999))[-6:]
-        email = request.data['email']
+        email = request.data['email'].lower()
+        username = email[0:email.find('@')]
 
         user_instance = None
         try:
@@ -99,18 +100,30 @@ class AuthAPIView(APIView):
                 is_superuser=False,
                 is_staff=False,
                 is_active=True,
-                username=email,
+                username=username,
                 email=email,
             )
-        user_instance.password = hashlib.md5(generated_pwd).hexdigest()
-        user_instance.password_change_date = datetime.datetime.now()
-        user_instance.save()
+
+        if 'code' in request.data:
+            code = hashlib.md5(request.data['code'].encode()).hexdigest()
+            if code == user_instance.password:
+                return Response({
+                    'status': status.HTTP_200_OK,
+                })
+            else:
+                return Response({
+                    'status': status.HTTP_403_FORBIDDEN,
+                })
+        else:
+            user_instance.password = hashlib.md5(generated_pwd.encode()).hexdigest()
+            user_instance.password_change_date = datetime.datetime.now()
+            user_instance.save()
 
         subject = 'Рады приветствовать вас на 4Paws!'
         html_message = render_to_string('registration_msg_russian.html', { 'registration_code': generated_pwd })
         plain_message = strip_tags(html_message)
         
-        r = send_mail(
+        send_mail(
             subject = subject, 
             message = plain_message, 
             from_email = settings.EMAIL_HOST_USER,
