@@ -109,7 +109,7 @@ class AuthAPIView(APIView):
         if 'code' in request.data:
             code = hashlib.md5(request.data['code'].encode()).hexdigest()
             if code == user_instance.password:
-                delta = password_date - user_instance.password_change_date
+                delta = password_date.replace(tzinfo=None) - user_instance.password_change_date.replace(tzinfo=None)
                 if delta.seconds > 10:
                     return Response({
                         'status': status.HTTP_408_REQUEST_TIMEOUT,
