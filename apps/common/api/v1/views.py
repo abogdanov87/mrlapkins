@@ -14,6 +14,7 @@ from django.db.models.functions import Lower
 from django.utils import timezone
 import datetime
 import hashlib
+import password_gen as pg
 
 from transliterate import translit
 
@@ -116,9 +117,14 @@ class AuthAPIView(APIView):
                     })
                 else:
                     user_instance.password_change_date = datetime.datetime(1970, 1, 1)
+                    user_instance.password = pg.generate()
                     user_instance.save()
                     return Response({
                         'status': status.HTTP_200_OK,
+                        'user': {
+                            'username': user_instance.username,
+                            'password': user_instance.password,
+                        } 
                     })
             else:
                 return Response({
@@ -144,5 +150,6 @@ class AuthAPIView(APIView):
         
         return Response({
             'status': status.HTTP_200_OK,
+            'sent': True,
         })
     
