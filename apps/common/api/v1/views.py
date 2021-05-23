@@ -115,6 +115,8 @@ class AuthAPIView(APIView):
                         'status': status.HTTP_408_REQUEST_TIMEOUT,
                     })
                 else:
+                    user_instance.password_change_date = datetime.datetime(1970, 1, 1)
+                    user_instance.save()
                     return Response({
                         'status': status.HTTP_200_OK,
                     })
