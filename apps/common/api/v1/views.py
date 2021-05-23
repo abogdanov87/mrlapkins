@@ -91,6 +91,8 @@ class AuthAPIView(APIView):
         generated_pwd = '00000{0}'.format(random.randint(0, 999999))[-6:]
         email = request.data['email'].lower()
         username = email[0:email.find('@')]
+        password = hashlib.md5(generated_pwd.encode()).hexdigest()
+        password_date = datetime.datetime.now()
 
         user_instance = None
         try:
@@ -107,16 +109,22 @@ class AuthAPIView(APIView):
         if 'code' in request.data:
             code = hashlib.md5(request.data['code'].encode()).hexdigest()
             if code == user_instance.password:
-                return Response({
-                    'status': status.HTTP_200_OK,
-                })
+                delta = password_date - user_instance.password_change_date
+                if delta.seconds > 10:
+                    return Response({
+                        'status': status.HTTP_408_REQUEST_TIMEOUT,
+                    })
+                else:
+                    return Response({
+                        'status': status.HTTP_200_OK,
+                    })
             else:
                 return Response({
                     'status': status.HTTP_403_FORBIDDEN,
                 })
         else:
-            user_instance.password = hashlib.md5(generated_pwd.encode()).hexdigest()
-            user_instance.password_change_date = datetime.datetime.now()
+            user_instance.password = password
+            user_instance.password_change_date = password_date
             user_instance.save()
 
         subject = 'Рады приветствовать вас на 4Paws!'
