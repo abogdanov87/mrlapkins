@@ -29,6 +29,7 @@ class User(AbstractUser):
     email = models.EmailField(
         _('Адрес электронной почты'),
         blank=True, null=True,
+        unique=True,
     )
     avatar = ThumbnailerImageField(
         _('Аватарка'),

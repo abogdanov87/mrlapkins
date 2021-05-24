@@ -15,6 +15,8 @@ from django.utils import timezone
 import datetime
 import hashlib
 import password_gen as pg
+from django.contrib.auth import login, authenticate
+from rest_framework_simplejwt.tokens import RefreshToken
 
 from transliterate import translit
 
@@ -84,15 +86,14 @@ class UserRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     serializer_class = UserSerializer
 
 
-class AuthAPIView(APIView):
+class MailAPIView(APIView):
     queryset = User.objects.all()
-    permission_classes = [permissions.AllowAny]
+    permission_classes = [permissions.AllowAny,]
 
     def post(self, request, *args, **kwargs):
         generated_pwd = '00000{0}'.format(random.randint(0, 999999))[-6:]
         email = request.data['email'].lower()
-        username = email[0:email.find('@')]
-        password = hashlib.md5(generated_pwd.encode()).hexdigest()
+        username = email
         password_date = datetime.datetime.now()
 
         user_instance = None
@@ -107,33 +108,9 @@ class AuthAPIView(APIView):
                 email=email,
             )
 
-        if 'code' in request.data:
-            code = hashlib.md5(request.data['code'].encode()).hexdigest()
-            if code == user_instance.password:
-                delta = password_date.replace(tzinfo=None) - user_instance.password_change_date.replace(tzinfo=None)
-                if delta.seconds > 300:
-                    return Response({
-                        'status': status.HTTP_408_REQUEST_TIMEOUT,
-                    })
-                else:
-                    user_instance.password_change_date = datetime.datetime(1970, 1, 1)
-                    user_instance.password = pg.generate()
-                    user_instance.save()
-                    return Response({
-                        'status': status.HTTP_200_OK,
-                        'user': {
-                            'username': user_instance.username,
-                            'password': user_instance.password,
-                        } 
-                    })
-            else:
-                return Response({
-                    'status': status.HTTP_403_FORBIDDEN,
-                })
-        else:
-            user_instance.password = password
-            user_instance.password_change_date = password_date
-            user_instance.save()
+        user_instance.set_password(generated_pwd)
+        user_instance.password_change_date = password_date
+        user_instance.save()
 
         subject = 'Рады приветствовать вас на 4Paws!'
         html_message = render_to_string('registration_msg_russian.html', { 'registration_code': generated_pwd })
@@ -152,4 +129,41 @@ class AuthAPIView(APIView):
             'status': status.HTTP_200_OK,
             'sent': True,
         })
-    
+
+
+class AuthAPIView(APIView):
+    queryset = User.objects.all()
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request, *args, **kwargs):
+        email = request.data['email'].lower()
+        password_date = datetime.datetime.now()
+
+        user_instance = authenticate(username=email, password=request.data['code'])
+        if user_instance is not None:
+            delta = password_date.replace(tzinfo=None) - user_instance.password_change_date.replace(tzinfo=None)
+            if delta.seconds > 300:
+                return Response({
+                    'status': status.HTTP_408_REQUEST_TIMEOUT,
+                })
+            else:
+                user_instance.password_change_date = datetime.datetime(1970, 1, 1)
+                user_instance.set_password(pg.generate())
+                user_instance.save()
+                refresh = RefreshToken.for_user(user_instance)
+                return Response({
+                    'status': status.HTTP_200_OK,
+                    'tokens': {
+                        'refresh': str(refresh),
+                        'access': str(refresh.access_token),
+                    }
+                })
+        else:
+            return Response({
+                'status': status.HTTP_403_FORBIDDEN,
+            })
+
+        return Response({
+            'status': status.HTTP_400_BAD_REQUEST,
+        })
+            

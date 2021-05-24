@@ -31,4 +31,9 @@ urlpatterns = [
         api_v1_views.AuthAPIView().as_view(),
         name='auth',
     ),
+    url(
+        r'^api/v1/mail/$',
+        api_v1_views.MailAPIView().as_view(),
+        name='mail',
+    ),
 ]
