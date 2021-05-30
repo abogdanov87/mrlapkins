@@ -17,8 +17,10 @@ import hashlib
 import password_gen as pg
 from django.contrib.auth import login, authenticate
 from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.backends import TokenBackend
 
 from transliterate import translit
+import requests
 
 
 from common.models import (
@@ -136,34 +138,35 @@ class AuthAPIView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request, *args, **kwargs):
-        email = request.data['email'].lower()
-        password_date = datetime.datetime.now()
+            try: 
+                email = request.data['email'].lower()
+                password_date = datetime.datetime.now()
 
-        user_instance = authenticate(username=email, password=request.data['code'])
-        if user_instance is not None:
-            delta = password_date.replace(tzinfo=None) - user_instance.password_change_date.replace(tzinfo=None)
-            if delta.seconds > 300:
+                user_instance = authenticate(username=email, password=request.data['code'])
+                if user_instance is not None:
+                    delta = password_date.replace(tzinfo=None) - user_instance.password_change_date.replace(tzinfo=None)
+                    if delta.seconds > 300:
+                        return Response({
+                            'status': status.HTTP_408_REQUEST_TIMEOUT,
+                        })
+                    else:
+                        refresh = RefreshToken.for_user(user_instance)
+                        user_instance.password_change_date = datetime.datetime(1970, 1, 1)
+                        user_instance.set_password(pg.generate())
+                        user_instance.save()
+                        return Response({
+                            'status': status.HTTP_200_OK,
+                            'tokens': {
+                                'refresh': str(refresh),
+                                'access': str(refresh.access_token),
+                            }
+                        })
+                else:
+                    return Response({
+                        'status': status.HTTP_403_FORBIDDEN,
+                    })
+            except Exception:
                 return Response({
-                    'status': status.HTTP_408_REQUEST_TIMEOUT,
+                    'status': status.HTTP_400_BAD_REQUEST,
                 })
-            else:
-                user_instance.password_change_date = datetime.datetime(1970, 1, 1)
-                user_instance.set_password(pg.generate())
-                user_instance.save()
-                refresh = RefreshToken.for_user(user_instance)
-                return Response({
-                    'status': status.HTTP_200_OK,
-                    'tokens': {
-                        'refresh': str(refresh),
-                        'access': str(refresh.access_token),
-                    }
-                })
-        else:
-            return Response({
-                'status': status.HTTP_403_FORBIDDEN,
-            })
-
-        return Response({
-            'status': status.HTTP_400_BAD_REQUEST,
-        })
             

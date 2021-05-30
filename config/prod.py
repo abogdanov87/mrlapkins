@@ -22,7 +22,7 @@ DATABASES = {
     }
 }
 
-BASE_URL = 'http://www.4paws.io'
+BASE_URL = 'https://www.4paws.io'
 LOGIN_FORM_URL = BASE_URL + '/admin/json/api-auth/login/'
 HOME_FORM_URL = BASE_URL + '/#/catalogs/'
 
