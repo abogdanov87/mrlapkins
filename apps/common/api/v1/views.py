@@ -20,7 +20,6 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.backends import TokenBackend
 
 from transliterate import translit
-import requests
 
 
 from common.models import (
