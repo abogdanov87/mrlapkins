@@ -12,6 +12,11 @@ urlpatterns = [
         name='me',
     ),
     url(
+        r'^api/v1/me/(?P<pk>\d+)/$',
+        api_v1_views.MeUpdateAPIView.as_view(),
+        name='detail',
+    ),
+    url(
         r'^api/v1/params/$',
         api_v1_views.ParamListCreateAPIView.as_view(),
         name='list',
@@ -19,11 +24,6 @@ urlpatterns = [
     url(
         r'^api/v1/params/(?P<pk>\d+)/$',
         api_v1_views.ParamRetrieveUpdateAPIView.as_view(),
-        name='detail',
-    ),
-    url(
-        r'^api/v1/users/(?P<pk>\d+)/$',
-        api_v1_views.UserRetrieveUpdateAPIView.as_view(),
         name='detail',
     ),
     url(

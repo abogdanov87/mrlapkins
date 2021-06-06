@@ -82,9 +82,10 @@ class MeAPIView(APIView):
         return Response(serializer.data)
 
 
-class UserRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
+class MeUpdateAPIView(generics.UpdateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated,]
 
 
 class MailAPIView(APIView):
