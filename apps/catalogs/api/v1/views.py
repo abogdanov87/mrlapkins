@@ -15,6 +15,7 @@ from catalogs.models import (
 )
 from .serializers import (
     BreedSerializer, 
+    BreedShortSerializer,
 )
 from .filters import (
     BreedFilter, 
@@ -27,7 +28,7 @@ class CustomPageNumberPagination(PageNumberPagination):
 
 class BreedListCreateAPIView(generics.ListAPIView):
     queryset = Breed.objects.all()
-    serializer_class = BreedSerializer
+    serializer_class = BreedShortSerializer
     filterset_class = BreedFilter
     permission_classes = [permissions.AllowAny]
     pagination_class = CustomPageNumberPagination

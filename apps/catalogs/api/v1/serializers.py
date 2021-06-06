@@ -179,12 +179,88 @@ class BreedSerializer(serializers.ModelSerializer):
 
 
 class BreedShortSerializer(serializers.ModelSerializer):
+    allergenicity = serializers.SerializerMethodField()
+    molt = serializers.SerializerMethodField()
+    intelligence = serializers.SerializerMethodField()
+    sociability = serializers.SerializerMethodField()
+    need_for_care = serializers.SerializerMethodField()
+    activity = serializers.SerializerMethodField()
+    friendliness = serializers.SerializerMethodField()
+    health = serializers.SerializerMethodField()
+    pet_type_name = serializers.SerializerMethodField()
+    
     class Meta:
         model = Breed
         fields = (
             'id',
+            'pet_type',
+            'pet_type_name',
+            'code',
+            'wcf',
+            'alias',
             'title',
+            'short_description',
+            'image',
+            'allergenicity',
+            'molt',
+            'intelligence',
+            'sociability',
+            'need_for_care',
+            'activity',
+            'friendliness',
+            'health',
         )
+
+    def get_allergenicity(self, obj):
+        return {
+            'rank': obj.allergenicity,
+            'title': obj.get_allergenicity_display(),
+        }
+
+    def get_molt(self, obj):
+        return {
+            'rank': obj.molt,
+            'title': obj.get_molt_display(),
+        }
+
+    def get_intelligence(self, obj):
+        return {
+            'rank': obj.intelligence,
+            'title': obj.get_intelligence_display(),
+        }
+
+    def get_sociability(self, obj):
+        return {
+            'rank': obj.sociability,
+            'title': obj.get_sociability_display(),
+        }
+
+    def get_need_for_care(self, obj):
+        return {
+            'rank': obj.need_for_care,
+            'title': obj.get_need_for_care_display(),
+        }
+
+    def get_activity(self, obj):
+        return {
+            'rank': obj.activity,
+            'title': obj.get_activity_display(),
+        }
+
+    def get_friendliness(self, obj):
+        return {
+            'rank': obj.friendliness,
+            'title': obj.get_friendliness_display(),
+        }
+
+    def get_health(self, obj):
+        return {
+            'rank': obj.health,
+            'title': obj.get_health_display(),
+        }
+
+    def get_pet_type_name(self, obj):
+        return obj.get_pet_type_display()
 
     def validate(self, data):
         return data
