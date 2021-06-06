@@ -21,5 +21,5 @@ class BreedFilter(filters.FilterSet):
     def filter_title(self, queryset, title, value):
         return queryset.filter(title__icontains=value)
 
-    def filter_wcf(self, queryset, title, value):
-        return queryset.filter(title__icontains=value)
+    def filter_wcf(self, queryset, wcf, value):
+        return queryset.filter(wcf=value)
