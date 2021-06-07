@@ -114,8 +114,14 @@ class MailAPIView(APIView):
         user_instance.password_change_date = password_date
         user_instance.save()
 
-        subject = 'Рады приветствовать вас на 4Paws!'
-        html_message = render_to_string('registration_msg_russian.html', { 'registration_code': generated_pwd })
+        subject = 'Код для входа на 4Paws'
+        html_message = render_to_string(
+            'registration_msg_russian.html', 
+            { 
+                'registration_code': generated_pwd,
+                'deep_link': '{0}/#/authorization/?email={1}&code={2}'.format(settings.BASE_URL, email, generated_pwd)
+            }
+        )
         plain_message = strip_tags(html_message)
         
         send_mail(
