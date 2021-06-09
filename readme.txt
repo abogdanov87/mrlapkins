@@ -11,7 +11,9 @@
   3.3. cd www/4paws.io/mrlapkins
 4. Pull the code from Github:
   4.1. git pull
-5. Update static files:
-  5.1. python manage.py collectstatic
-6. Reload app on server by creating blank file in root folder of the site:
-  6.1. /www/4paws.io/.restart-app
+5. If there are new migrations you must run them first:
+  5.1. python manage.py migrate
+6. Update static files:
+  6.1. python manage.py collectstatic
+7. Reload app on server by creating blank file in root folder of the site:
+  7.1. /www/4paws.io/.restart-app

@@ -5,7 +5,6 @@ from django.utils import timezone
 from django.conf import settings
 from easy_thumbnails.fields import ThumbnailerImageField
 from django.apps import apps
-from common.models import Entity, PeriodHistoricalModel
 from simple_history.models import HistoricalRecords
 from djrichtextfield.models import RichTextField
 
